@@ -2,15 +2,12 @@ package com.heckcodes.essentialish.ui.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
-import com.heckcodes.essentialish.presentation.viewmodel.SettingScreenViewModel
 import com.heckcodes.essentialish.ui.screens.ListDetailScreen
 import com.heckcodes.essentialish.ui.screens.ListsScreen
 import com.heckcodes.essentialish.ui.screens.SettingsHomeScreen
@@ -20,12 +17,12 @@ import com.heckcodes.essentialish.ui.screens.setting.SettingsThemeScreen
 
 @Composable
 fun AppNavGraph(
-    navController: NavHostController,
+    navHostController: NavHostController,
     startDestination: String,
     innerPadding: PaddingValues
 ) {
-    NavHost(navController = navController, startDestination = startDestination) {
-        composable(ScreenRoute.Lists.routeName) { ListsScreen(innerPadding) }
+    NavHost(navController = navHostController, startDestination = startDestination) {
+        composable(ScreenRoute.Lists.routeName) { ListsScreen(innerPadding, navHostController) }
         composable(
             route = ScreenRoute.ListDetails.routeName,
             arguments = listOf(
@@ -40,20 +37,20 @@ fun AppNavGraph(
             ListDetailScreen(listId, innerPadding)
         }
 
-        composable(ScreenRoute.Stats.routeName) { StatsScreen(innerPadding) }
+        composable(ScreenRoute.Stats.routeName) { StatsScreen(innerPadding, navHostController) }
 
         navigation(
             route = ScreenRoute.SettingsRoot.routeName,
             startDestination = ScreenRoute.SettingsHome.routeName
         ) {
             composable(ScreenRoute.SettingsHome.routeName) {
-                SettingsHomeScreen(innerPadding, navController)
+                SettingsHomeScreen(innerPadding, navHostController)
             }
             composable(ScreenRoute.SettingsTheme.routeName) {
-                SettingsThemeScreen(innerPadding)
+                SettingsThemeScreen(innerPadding, navHostController)
             }
             composable(ScreenRoute.SettingsListItemPreferences.routeName) {
-                SettingsListItemPreferencesScreen(innerPadding)
+                SettingsListItemPreferencesScreen(innerPadding, navHostController)
             }
         }
     }

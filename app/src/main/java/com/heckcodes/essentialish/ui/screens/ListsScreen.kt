@@ -16,6 +16,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.heckcodes.essentialish.domain.util.SortOrder
 import com.heckcodes.essentialish.presentation.viewmodel.ListScreenViewModel
 import com.heckcodes.essentialish.presentation.viewmodel.TopAppBarViewModel
@@ -24,10 +26,12 @@ import com.heckcodes.essentialish.ui.components.GeneralSelectionDialog
 import com.heckcodes.essentialish.ui.components.SelectionType
 import com.heckcodes.essentialish.ui.components.ShoppingListCard
 import com.heckcodes.essentialish.ui.model.TopAppBarAction
+import com.heckcodes.essentialish.ui.navigation.ScreenRoute
 
 @Composable
 fun ListsScreen(
     innerPadding: PaddingValues,
+    navHostController: NavHostController,
     viewModel: ListScreenViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsState().value
@@ -35,15 +39,20 @@ fun ListsScreen(
 
     val (showSortOptionsDialog, setShowSortOptionsDialog) = rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
-        topAppBarViewModel.updateAppBar(
-            title = "Essentialish",
-            actions = listOf(
-                TopAppBarAction(Icons.AutoMirrored.Rounded.Sort, "Sort Lists") {
-                    setShowSortOptionsDialog(true)
-                }
+
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    LaunchedEffect(currentRoute) {
+        if (currentRoute == ScreenRoute.Lists.routeName) {
+            topAppBarViewModel.updateAppBar(
+                title = "Essentialish",
+                actions = listOf(
+                    TopAppBarAction(Icons.AutoMirrored.Rounded.Sort, "Sort Lists") {
+                        setShowSortOptionsDialog(true)
+                    }
+                )
             )
-        )
+        }
     }
 
     LazyColumn(

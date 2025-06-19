@@ -10,7 +10,7 @@ val settingsGroups = listOf(
     SettingsGroup(
         icon = Icons.Rounded.ColorLens,
         title = "Theme",
-        description = "Contrast, dynamic color",
+        description = "Dark mode, Color & Font settings",
         route = ScreenRoute.SettingsTheme.routeName
     ),
     SettingsGroup(

@@ -20,6 +20,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,19 +32,31 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.heckcodes.essentialish.domain.util.DarkTheme
 import com.heckcodes.essentialish.domain.util.PaletteStyle
 import com.heckcodes.essentialish.presentation.viewmodel.SettingScreenViewModel
+import com.heckcodes.essentialish.presentation.viewmodel.TopAppBarViewModel
 import com.heckcodes.essentialish.presentation.viewmodel.activityViewModel
 import com.heckcodes.essentialish.ui.components.GeneralSelectionDialog
 import com.heckcodes.essentialish.ui.components.SelectionType
+import com.heckcodes.essentialish.ui.navigation.ScreenRoute
 import kotlin.math.round
 
 @Composable
-fun SettingsThemeScreen(innerPadding: PaddingValues) {
+fun SettingsThemeScreen(innerPadding: PaddingValues, navHostController: NavHostController) {
     val settingScreenViewModel: SettingScreenViewModel = activityViewModel()
     val state by settingScreenViewModel.state.collectAsState()
 
+    val topAppBarViewModel: TopAppBarViewModel = activityViewModel()
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    LaunchedEffect(currentRoute) {
+        if (currentRoute == ScreenRoute.SettingsTheme.routeName) {
+            topAppBarViewModel.updateAppBar(title = "Theme Settings")
+        }
+    }
     val (showContrastDialog, setShowContrastDialog) = rememberSaveable { mutableStateOf(false) }
     val (showDarkThemeDialog, setShowDarkThemeDialog) = rememberSaveable { mutableStateOf(false) }
     val (showPaletteStyleDialog, setShowPaletteStyleDialog) = rememberSaveable { mutableStateOf(false) }

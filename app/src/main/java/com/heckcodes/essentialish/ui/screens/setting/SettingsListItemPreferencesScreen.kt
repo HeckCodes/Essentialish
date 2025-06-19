@@ -14,6 +14,7 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,16 +25,30 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.heckcodes.essentialish.domain.util.SortOrder
 import com.heckcodes.essentialish.presentation.viewmodel.SettingScreenViewModel
+import com.heckcodes.essentialish.presentation.viewmodel.TopAppBarViewModel
 import com.heckcodes.essentialish.presentation.viewmodel.activityViewModel
 import com.heckcodes.essentialish.ui.components.GeneralSelectionDialog
 import com.heckcodes.essentialish.ui.components.SelectionType
+import com.heckcodes.essentialish.ui.navigation.ScreenRoute
 
 @Composable
-fun SettingsListItemPreferencesScreen(innerPadding: PaddingValues) {
+fun SettingsListItemPreferencesScreen(innerPadding: PaddingValues, navHostController: NavHostController) {
     val settingScreenViewModel: SettingScreenViewModel = activityViewModel()
     val state by settingScreenViewModel.state.collectAsState()
+
+    val topAppBarViewModel: TopAppBarViewModel = activityViewModel()
+    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+    LaunchedEffect(currentRoute) {
+        if (currentRoute == ScreenRoute.SettingsListItemPreferences.routeName) {
+            topAppBarViewModel.updateAppBar(title = "List & Item Preferences")
+        }
+    }
+
     val (showListSortDialog, setShowListSortDialog) = rememberSaveable { mutableStateOf(false) }
     val (showItemSortDialog, setShowItemSortDialog) = rememberSaveable { mutableStateOf(false) }
 

@@ -35,6 +35,7 @@ sealed class SelectionType<T> {
         val step: Double = 0.1
     ) : SelectionType<Double>()
     class ColorType : SelectionType<String>()
+    class AlertType<T> : SelectionType<T>()
 }
 
 @OptIn(ExperimentalStdlibApi::class)
@@ -147,6 +148,23 @@ inline fun <reified T> GeneralSelectionDialog(
                     Button(onClick = {
                         onConfirm("#$selected" as T)
                     }) {
+                        Text("Confirm")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = onDismiss) {
+                        Text("Cancel")
+                    }
+                }
+            )
+        }
+        is SelectionType.AlertType -> {
+            AlertDialog(
+                onDismissRequest = onDismiss,
+                title = { Text(title) },
+                text = { Text(description) },
+                confirmButton = {
+                    Button(onClick = { onConfirm(current) }) {
                         Text("Confirm")
                     }
                 },

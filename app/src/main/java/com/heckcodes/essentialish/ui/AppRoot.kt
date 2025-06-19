@@ -20,8 +20,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.heckcodes.essentialish.presentation.viewmodel.TopAppBarViewModel
-import com.heckcodes.essentialish.presentation.viewmodel.activityViewModel
 import com.heckcodes.essentialish.ui.components.CreateListDialog
 import com.heckcodes.essentialish.ui.components.CustomTopAppBar
 import com.heckcodes.essentialish.ui.navigation.AppNavGraph
@@ -100,7 +98,7 @@ fun AppRoot() {
         }
     ) { innerPadding ->
         AppNavGraph(
-            navController = navController,
+            navHostController = navController,
             startDestination = ScreenRoute.Lists.routeName,
             innerPadding = innerPadding
         )

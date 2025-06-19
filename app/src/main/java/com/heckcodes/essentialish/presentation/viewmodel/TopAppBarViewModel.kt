@@ -1,5 +1,6 @@
 package com.heckcodes.essentialish.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.heckcodes.essentialish.ui.model.TopAppBarAction
 import com.heckcodes.essentialish.ui.model.TopAppBarState
@@ -13,11 +14,8 @@ class TopAppBarViewModel @Inject constructor() : ViewModel() {
     private val _topAppBarState = MutableStateFlow(TopAppBarState())
     val topAppBarState: StateFlow<TopAppBarState> = _topAppBarState
 
-    fun updateAppBar(title: String, actions: List<TopAppBarAction>) {
+    fun updateAppBar(title: String, actions: List<TopAppBarAction> = emptyList()) {
+        Log.d("TopAppBarViewModel", "updateAppBar: $title")
         _topAppBarState.value = TopAppBarState(title, actions)
-    }
-
-    fun clearAppBar() {
-        _topAppBarState.value = TopAppBarState()
     }
 }

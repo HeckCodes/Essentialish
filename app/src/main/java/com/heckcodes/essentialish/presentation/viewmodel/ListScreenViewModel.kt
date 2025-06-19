@@ -4,7 +4,6 @@
  */
 package com.heckcodes.essentialish.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.heckcodes.essentialish.data.local.database.DataStoreManager

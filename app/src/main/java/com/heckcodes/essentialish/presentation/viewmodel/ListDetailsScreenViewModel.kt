@@ -1,9 +1,7 @@
 package com.heckcodes.essentialish.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.heckcodes.essentialish.domain.model.ShoppingItem
 import com.heckcodes.essentialish.domain.model.ShoppingList
 import com.heckcodes.essentialish.domain.usecase.shoppinglist.AddShoppingListUseCase
 import com.heckcodes.essentialish.domain.usecase.shoppinglist.GetShoppingListUseCase
@@ -50,7 +48,7 @@ class ListDetailsScreenViewModel @Inject constructor(
                 listId = addShoppingList(shoppingListName)
             }
         }
-        return listId;
+        return listId
     }
 
     fun updateShoppingListIcon(oldShoppingList: ShoppingList, newIconName: String) {

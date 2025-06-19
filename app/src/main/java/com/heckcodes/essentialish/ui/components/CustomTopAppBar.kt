@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.heckcodes.essentialish.presentation.viewmodel.TopAppBarViewModel
 import com.heckcodes.essentialish.presentation.viewmodel.activityViewModel
-import com.heckcodes.essentialish.ui.model.TopAppBarAction
 
 @Composable
 fun CustomTopAppBar() {
@@ -52,7 +51,7 @@ fun CustomTopAppBar() {
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterEnd)
-                    .padding(end = 8.dp)
+                    .padding(end = 16.dp)
             ) {
                 state.actions.forEach { action ->
                     IconButton(onClick = action.onClick) {
